@@ -21,25 +21,25 @@
         <img src="../Logos/logo_yard_sale.svg" alt="logo" class="logo" />
         <ul>
           <li>
-            <a href="/">CATEGORIES</a>
+            <a href="#">CATEGORIES</a>
           </li>
           <li>
-            <a href="/">All</a>
+            <a href="#">All</a>
           </li>
           <li>
-            <a href="/">Clothes</a>
+            <a href="#">Clothes</a>
           </li>
           <li>
-            <a href="/">Electronics</a>
+            <a href="#">Electronics</a>
           </li>
           <li>
-            <a href="/">Furnitures</a>
+            <a href="#">Furnitures</a>
           </li>
           <li>
-            <a href="/">Toys</a>
+            <a href="#">Toys</a>
           </li>
           <li>
-            <a href="/">Others</a>
+            <a href="#">Others</a>
           </li>
         </ul>
       </div>
@@ -48,7 +48,7 @@
           <li class="navbar-email">ejemplo@gmail.com</li>
           <li class="navbar-shopping-card">
             <img src="../Icons/icon_shopping_cart.svg" alt="shopping-cart" />
-            <div>2</div>
+            <div class="counter-cart">0</div>
           </li>
         </ul>
       </div>
@@ -112,7 +112,7 @@
         </div>
         
         <div class="my-order-content">
-            <div class="shopping-card">
+            <!-- <div class="shopping-card">
               <figure>
                 <img
                   src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -122,58 +122,42 @@
               <p>Bike</p>
               <p>$30,00</p>
               <img src="../Icons/icon_close.png" alt="close">
-            </div>
-            <div class="shopping-card">
-              <figure>
-                <img
-                  src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                  alt="bike"
-                />
-              </figure>
-              <p>Bike</p>
-              <p>$30,00</p>
-              <img src="../Icons/icon_close.png" alt="close">
-            </div>
-            <div class="shopping-card">
-              <figure>
-                <img
-                  src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                  alt="bike"
-                />
-              </figure>
-              <p>Bike</p>
-              <p>$30,00</p>
-              <img src="../Icons/icon_close.png" alt="close">
-            </div>
+            </div> -->
               <div class="order">
                 <p>
                   <span>Total</span>
                 </p>
-                <p>$560.00</p>
+                <p>
+                  <span>$</span>
+                  <span class="order-total">
+                    0.00
+                  </span>
+                </p>
               </div>
               <button class="primary-button">
                 Checkout
             </button>
-            </div>
+        </div>
+    </aside>
+    <div class="product-detail-root">
+        <!-- <aside id="productDetail" class="inactive">
+          <div class="product-detail-close">
+              <img src="../Icons//icon_close.png" alt="close">
           </div>
-    </aside>
-
-    <aside id="productDetail" class="inactive">
-        <div class="product-detail-close">
-            <img src="../Icons//icon_close.png" alt="close">
-        </div>
-        
-        <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="bike">
-        <div class="product-info">
-            <p>35,00</p>
-            <p>Bike</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.</p>
-            <button class="primary-button add-to-cart-button">
-                <img src="../Icons/bt_add_to_cart.svg" alt="add to cart">
-                Add to cart
-            </button>
-        </div>
-    </aside>
+          
+          <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="bike">
+          <div class="product-info">
+              <p>35,00</p>
+              <p>Bike</p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.</p>
+              <button class="primary-button add-to-cart-button">
+                  <img src="../Icons/bt_add_to_cart.svg" alt="add to cart">
+                  Add to cart
+              </button>
+          </div>
+        </aside> -->
+    </div>
+    
 
     <section class="main-container">
         <div class="cards-container">
@@ -192,6 +176,15 @@
         </div> 
     </section>
 
+    <footer id="gallery-pagination">
+      <button id="btnPrevious">&larr; <span class="sr-only">Previous</span></button>
+      <div>
+        <div id="gallery-dots"></div>
+        <span id="page"></span>
+      </div>
+      <button id="btnNext"><span class="sr-only">Next </span>&rarr;</button>
+    </footer>
+    
     <script src="./index.js"></script>
   </body>
 </html>

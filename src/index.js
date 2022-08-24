@@ -1,3 +1,40 @@
+const productList = [];
+for (let i = 0; i < 36; i++) {
+    productList.push({
+        id: i,
+        name: "Image " + (i + 1),
+        price: 120 * (i + 1),
+        image: "https://picsum.photos/500/500?random&img=" + i,
+        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.',
+        category: "",
+    });
+    // productList.push({
+    //     id: i +1,
+    //     name: 'Screen',
+    //     price: 150,
+    //     image: 'https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    //     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.'
+    // });
+    // productList.push({
+    //     id: i + 2,
+    //     name: 'Mouse',
+    //     price: 50,
+    //     image: 'https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    //     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.'
+    // });
+  }
+
+
+let previous = document.getElementById('btnPrevious')
+let next = document.getElementById('btnNext')
+let gallery = document.querySelector('.cards-container')
+let pageIndicator = document.getElementById('page')
+let galleryDots = document.getElementById('gallery-dots');
+
+let perPage = 15;
+let page = 1;
+let pages = Math.ceil(productList.length / perPage)
+
 const menuEmail = document.querySelector('.navbar-email');
 const desktopMenu = document.querySelector('.desktop-menu');
 
@@ -6,48 +43,127 @@ const mobileMenu = document.querySelector('.mobile-menu');
 
 const menuCar = document.querySelector('.navbar-shopping-card');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
-const productDetailClose = document.querySelector('.product-detail-close')
 
-productDetailClose.addEventListener('click', closeProductDetailAside);
+let position = 1;
+const productDetailRoot = document.querySelector('.product-detail-root');
+renderProductDetail(productList);
+const productDetailClose = document.querySelectorAll('.product-detail-close');
+
 const cardsContainer = document.querySelector('.cards-container');
-const productDetailContainer = document.querySelector('#productDetail');
+const productDetailContainer = document.querySelectorAll('.productDetail');
+let shopingCardClass;
+let amount;
+const myOrderContent = document.querySelector('.my-order-content');
+const orderTotal = document.querySelector('.order-total');
+
 menuEmail.addEventListener('click', toggleDesktopMenu);
 menuHamIcon.addEventListener('click', toggleMobileMenu);
 menuCar.addEventListener('click', toggleCar);
 
-function openProductDetailAside() {
+//Add to cart
+const counterCart = document.querySelector('.counter-cart');
+
+let myOrder = [];
+
+function addToCart(id, inputRequest){
+    //Se suma el contador del carrito
+    let number = Number(counterCart.innerText) + 1;
+    counterCart.innerText = number;
+    
+    let isDefined = false;
+    let counterElement = 1;
+    let price1 = productList[id].price;
+    let total = 0;
+    id = Number(id);
+    shopingCardClass = document.querySelectorAll('.shopping-card');  
+    amount = document.querySelectorAll('.amount');
+    
+    position = id;
+    if(myOrder.length > 0){ 
+        let i = 0;
+        let j = myOrder.length - 1;
+        while(i < myOrder.length && isDefined === false) {
+            if(myOrder[i].id === id){
+                console.log(myOrder[i]);
+                isDefined = true;
+                console.log(amount[j].value)
+                console.log(myOrder[i].amount)
+                if(Number(amount[j].value) +1 > myOrder[i].amount){
+                    price1 = productList[id].price + myOrder[i].price;
+                }else{
+                    price1 = myOrder[i].price - productList[id].price;
+                }
+                console.log(price1)
+                myOrder[i].price = price1;
+                shopingCardClass[j].childNodes[3].innerText = price1;
+
+                if(!inputRequest){
+                    counterElement += Number(amount[j].value); 
+                    amount[j].value = counterElement;
+                }
+                myOrder[i].amount = Number(amount[j].value);
+            }else{
+                isDefined = false;
+            }
+            i++;
+            j--;
+        }
+        
+    }
+    if(myOrder.length === 0 || !isDefined){
+        myOrder.push({
+            id: productList[id].id,
+            name: productList[id].name,
+            price: price1,
+            image: productList[id].image,
+            amount: counterElement
+        });
+        renderCart(productList[id].name, price1, productList[id].image, 1, id);
+    }   
+    for(order of myOrder){
+        total+= order.price;
+    }
+    orderTotal.innerText = total;
+}
+
+
+
+function openProductDetailAside(id) {
     shoppingCartContainer.classList.add('inactive');
     desktopMenu.classList.add('inactive');
     mobileMenu.classList.add('inactive');
-    productDetailContainer.classList.remove('inactive');
+    console.log(`Id: ${id}`);
+    console.log(`Position: ${position}`);
+    position = 2;
+    productDetailContainer[id].classList.remove('inactive');
 }
 
-function closeProductDetailAside() {
-    productDetailContainer.classList.add('inactive');
+function closeProductDetailAside(id) {
+    productDetailContainer[id].classList.add('inactive');
 }
 
 function toggleDesktopMenu () {
     const isShoppingCartContainerClosed = shoppingCartContainer.classList.contains('inactive');
-    const isProductDetaiClosed = productDetailContainer.classList.contains('inactive');
+    const isProductDetaiClosed = productDetailContainer[position].classList.contains('inactive');
     //Si el menu movil esta abierto hay que cerrarlo
     if(!isShoppingCartContainerClosed){
         shoppingCartContainer.classList.add('inactive');
     }
     if(!isProductDetaiClosed){
-        productDetailContainer.classList.add('inactive');
+        productDetailContainer[position].classList.add('inactive');
     } 
     desktopMenu.classList.toggle('inactive');
 }
 
 function toggleMobileMenu () {
     const isshoppingCartContainerClosed = shoppingCartContainer.classList.contains('inactive');
-    const isProductDetaiClosed = productDetailContainer.classList.contains('inactive');
+    const isProductDetaiClosed = productDetailContainer[position].classList.contains('inactive');
     //Si el menu movil esta abierto hay que cerrarlo
     if(!isshoppingCartContainerClosed){
         shoppingCartContainer.classList.add('inactive');
     }
     if(!isProductDetaiClosed){
-        productDetailContainer.classList.add('inactive');
+        productDetailContainer[position].classList.add('inactive');
     }  
     mobileMenu.classList.toggle('inactive');
 }
@@ -55,7 +171,7 @@ function toggleMobileMenu () {
 function toggleCar() {
     const ismobileMenuClosed = mobileMenu.classList.contains('inactive');
     const isDesktopMenuClosed = desktopMenu.classList.contains('inactive');
-    const isProductDetaiClosed = productDetailContainer.classList.contains('inactive');
+    const isProductDetaiClosed = productDetailContainer[position].classList.contains('inactive');
     //Si el menu movil esta abierto hay que cerrarlo
     if(!ismobileMenuClosed){
         mobileMenu.classList.add('inactive');
@@ -64,52 +180,201 @@ function toggleCar() {
         desktopMenu.classList.add('inactive');
     }
     if(!isProductDetaiClosed){
-        productDetailContainer.classList.add('inactive');
+        productDetailContainer[position].classList.add('inactive');
     }
     shoppingCartContainer.classList.toggle('inactive');
-    
 }
 
-const productList = [];
-productList.push({
-    name: 'Bike',
-    price: 120,
-    image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-});
-productList.push({
-    name: 'Screen',
-    price: 150,
-    image: 'https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-});
-productList.push({
-    name: 'Mouse',
-    price: 50,
-    image: 'https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-});
 
-function rederProduct (arr) {
+function renderCart (name, price, image, amount, id) {
+    const shoppingCard = document.createElement('div');
+    shoppingCard.classList.add('shopping-card');
+
+    const figure = document.createElement('figure');
+
+    const img = document.createElement('img');
+    img.setAttribute('src', image);
+    img.setAttribute('alt', name);
+
+    const pName = document.createElement('p');
+    pName.innerText = name;
+
+    const numberInput = document.createElement('input');
+    numberInput.classList.add('amount');
+    numberInput.setAttribute('type', 'number');
+    numberInput.setAttribute('min', 1);
+    numberInput.setAttribute('value', amount);
+    numberInput.addEventListener('input',function(){
+        addToCart(id, true);
+    });
+    const pPrice = document.createElement('p');
+    pPrice.innerText = price;
+
+    const deleteElement = document.createElement('img');
+    deleteElement.setAttribute('src', '../Icons/icon_close.png');
+    deleteElement.setAttribute('alt', 'Delete');
+
+    shoppingCard.appendChild(figure);
+    shoppingCard.appendChild(pName);
+    shoppingCard.appendChild(numberInput);
+    shoppingCard.appendChild(pPrice);
+    shoppingCard.appendChild(deleteElement);
+
+    figure.appendChild(img);
+
+    myOrderContent.prepend(shoppingCard);  
+}
+
+function renderProductDetail (arr){
     for(product of arr){
+        const productDetails = document.createElement('aside');
+        productDetails.classList.add('productDetail');
+        productDetails.classList.add('inactive');
+        
+        const productDetailClose1 = document.createElement('div');
+        productDetailClose1.classList.add('product-detail-close');
+
+        const iconClose = document.createElement('img');
+        iconClose.setAttribute('src','../Icons/icon_close.png');
+        iconClose.setAttribute('alt','close');
+
+        const img = document.createElement('img');
+        img.setAttribute('src',product.image);
+        img.setAttribute('alt',product.name);
+        
+        const productInfo = document.createElement('div');
+        productInfo.classList.add('product-info');
+        
+        const pPrice = document.createElement('p');
+        pPrice.innerText = product.price;
+
+        const pName = document.createElement('p');
+        pName.innerText = product.name;
+
+        const pDescription = document.createElement('p');
+        pDescription.innerText = product.description;
+
+        const btnAddCart = document.createElement('button');
+        btnAddCart.classList.add('primary-button');
+        btnAddCart.classList.add('add-to-cart-button');
+
+        const btnICon = document.createElement('img');
+        btnICon.setAttribute('src', '../Icons/bt_add_to_cart.svg');
+        btnICon.setAttribute('alt', 'add to cart');
+
+        btnAddCart.appendChild(btnICon);
+        btnAddCart.innerHTML = 'Add to cart';
+
+        productInfo.appendChild(pPrice);
+        productInfo.appendChild(pName);
+        productInfo.appendChild(pDescription);
+        productInfo.appendChild(btnAddCart);
+
+        productDetailClose1.appendChild(iconClose);
+
+        productDetails.appendChild(productDetailClose1);
+        productDetails.appendChild(img);
+        productDetails.appendChild(productInfo);
+
+        productDetailRoot.appendChild(productDetails);
+    }
+}
+
+// Gallery dots
+for (let i = 0; i < pages; i++){
+    let dot = document.createElement('button');
+    dot.classList.add('gallery-dot');
+    dot.setAttribute('data-index', i);
+
+    let dotSpan = document.createElement('span');
+    dotSpan.classList.add('sr-only');
+
+    let dotNumber = document.createTextNode(i + 1);
+    
+   
+    dotSpan.appendChild(dotNumber);
+    dot.appendChild(dotSpan)
+    
+    dot.addEventListener('click', function(e) {
+      let self = e.target
+      goToPage(self.getAttribute('data-index'))
+    })
+    
+    galleryDots.appendChild(dot)
+}
+
+// Previous Button
+previous.addEventListener('click', function() {
+    if (page === 1) {
+      page = 1;
+    } else {
+      page--;
+      renderProduct(productList);
+    }
+  })
+  
+  // Next Button
+next.addEventListener('click', function() {
+    if (page < pages) {
+      page++;
+      renderProduct(productList);
+    }
+})
+  
+  // Jump to page
+function goToPage(index) {
+    index = parseInt(index);
+    page =  index + 1;
+    
+    renderProduct(productList);
+}
+
+function renderProduct (arr) {
+  while(gallery.firstChild)
+  gallery.removeChild(gallery.firstChild);
+
+  let offset = (page - 1) * perPage;
+  let dots = document.querySelectorAll('.gallery-dot');
+
+  for (let i = 0; i < dots.length; i++){
+    dots[i].classList.remove('active');
+  }
+  
+  dots[page - 1].classList.add('active');
+
+  for(let i = offset; i < offset + perPage; i++){
+    if ( arr[i] ) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
-    
+        productCard.classList.add(arr[i].id);
         const img = document.createElement('img');
-        img.setAttribute('src', product.image);
-        img.addEventListener('click', openProductDetailAside);
-
+        img.setAttribute('src', arr[i].image);
+        img.setAttribute('alt', arr[i].name);
+        //Ver detalle
+        img.addEventListener('click',function (){
+            openProductDetailAside(productCard.classList[1]);
+          })
+        //Cerrar detalle
+        productDetailClose[arr[i].id].addEventListener('click', function(){
+            closeProductDetailAside(productCard.classList[1]);
+        });
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
     
         const div = document.createElement('div');
         const price = document.createElement('p');
-        price.innerText = '$' + product.price;
+        price.innerText = '$' + arr[i].price;
         const name = document.createElement('p');
-        name.innerText = product.name;
+        name.innerText = arr[i].name;
     
         const figure = document.createElement('figure');
         const icon = document.createElement('img');
         icon.setAttribute('src', '../Icons/bt_add_to_cart.svg');
-        icon.setAttribute('alt', product.name);
-    
+        icon.setAttribute('alt', arr[i].name);
+        icon.classList.add('btn-add-cart')
+        icon.addEventListener('click', function(){
+            addToCart(productCard.classList[1]);
+        });
         figure.appendChild(icon);
     
         div.appendChild(price);
@@ -123,6 +388,25 @@ function rederProduct (arr) {
     
         cardsContainer.appendChild(productCard);
     }
+  }
+    // Animate images
+    let galleryItems = document.querySelectorAll('.product-card');
+    for (let i = 0; i < galleryItems.length; i++) {
+        let onAnimateItemIn = animateItemIn(i);
+        setTimeout(onAnimateItemIn, i * 100);
+    }
+  
+    function animateItemIn(i) {
+        let item = galleryItems[i];
+        return function() {
+            item.classList.add('animate');
+        }
+    }
+    // Update page indicator
+    pageIndicator.textContent = "Page " + page + " of " + pages;
 }
 
-rederProduct(productList);
+
+renderProduct(productList);
+
+
