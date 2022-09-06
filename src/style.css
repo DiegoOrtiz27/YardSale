@@ -747,31 +747,31 @@ Carrusel */
 
 @media (min-width: 737px) and (max-width: 888px) {
   .main-container {
-    margin-top: 30%;
+    margin-top: 35%;
   }
 }
 
 @media (min-width: 636px) and (max-width: 737px) {
   .main-container {
-    margin-top: 35%;
+    margin-top: 40%;
   }
 }
 
 @media (min-width: 560px) and (max-width: 636px) {
   .main-container {
-    margin-top: 40%;
+    margin-top: 45%;
   }
 }
 
 @media (min-width: 493px) and (max-width: 560px) {
   .main-container {
-    margin-top: 45%;
+    margin-top: 50%;
   }
 }
 
 @media (min-width: 410px) and (max-width: 493px) {
   .main-container {
-    margin-top: 55%;
+    margin-top: 60%;
   }
 }
 

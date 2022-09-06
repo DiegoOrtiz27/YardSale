@@ -109,7 +109,7 @@ function renderCategory(index){
                 });
             }
         }
-    }else if(Array.isArray(index) && index.length > 0) {
+    }else if(Array.isArray(index)) {
         category = index;
     }else{
         category = productList;

@@ -97,9 +97,6 @@ class Slider {
           "<h4 class='subtitle'>" +
           slide.subtitle +
           "</h4>" +
-          "<a class='sliderCta' href='" +
-          slide.link +
-          "' target='_blank'>"+slide.cta+"</a>" +
           "</div>" +
           "</div>";
       });
@@ -146,7 +143,6 @@ class Slider {
   
       let style = document.createElement('style');
           style.innerHTML = '.dot.active{ background-color: '+this.ctaBackground+'; }';
-          style.innerHTML += '.sliderCta { padding: 10px 25px; color:'+this.ctaColor+';  background-color: '+this.ctaBackground+'; text-decoration: none; }';
           style.innerHTML += '.title, .subtitle { color:'+this.textColor+' !important }';
       document.getElementsByTagName('head')[0].appendChild(style);
   
