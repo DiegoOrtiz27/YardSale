@@ -289,7 +289,7 @@ function renderCart (name, price, image, amount, id) {
     pPrice.innerText = price;
 
     const deleteElement = document.createElement('img');
-    deleteElement.setAttribute('src', '../Icons/icon_close.png');
+    deleteElement.setAttribute('src', './Icons/icon_close.png');
     deleteElement.setAttribute('alt', 'Delete');
 
     shoppingCard.appendChild(figure);
@@ -313,7 +313,7 @@ function renderProductDetail (arr){
         productDetailClose1.classList.add('product-detail-close');
 
         const iconClose = document.createElement('img');
-        iconClose.setAttribute('src','../Icons/icon_close.png');
+        iconClose.setAttribute('src','./Icons/icon_close.png');
         iconClose.setAttribute('alt','close');
 
         const img = document.createElement('img');
@@ -337,7 +337,7 @@ function renderProductDetail (arr){
         btnAddCart.classList.add('add-to-cart-button');
 
         const btnICon = document.createElement('img');
-        btnICon.setAttribute('src', '../Icons/bt_add_to_cart.svg');
+        btnICon.setAttribute('src', './Icons/bt_add_to_cart.svg');
         btnICon.setAttribute('alt', 'add to cart');
 
         btnAddCart.appendChild(btnICon);
@@ -458,7 +458,7 @@ function renderProduct (arr) {
     
         const figure = document.createElement('figure');
         const icon = document.createElement('img');
-        icon.setAttribute('src', '../Icons/bt_add_to_cart.svg');
+        icon.setAttribute('src', './Icons/bt_add_to_cart.svg');
         icon.setAttribute('alt', arr[i].name);
         icon.classList.add('btn-add-cart')
         icon.addEventListener('click', function(){
