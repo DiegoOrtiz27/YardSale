@@ -6,23 +6,25 @@ for (let i = 0; i < 36; i++) {
         price: 120 * (i + 1),
         image: "https://picsum.photos/500/500?random&img=" + i,
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.',
-        category: "",
+        category: "Toys",
     });
-    // productList.push({
-    //     id: i +1,
-    //     name: 'Screen',
-    //     price: 150,
-    //     image: 'https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    //     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.'
-    // });
-    // productList.push({
-    //     id: i + 2,
-    //     name: 'Mouse',
-    //     price: 50,
-    //     image: 'https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    //     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.'
-    // });
   }
+  productList.push({
+    id: 36,
+    name: 'Screen',
+    price: 150,
+    image: 'https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.',
+    category: "Electronics",
+});
+productList.push({
+    id: 37,
+    name: 'Mouse',
+    price: 50,
+    image: 'https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam illo sapiente similique suscipit possimus veritatis. Natus enim cupiditate et ratione ipsum! Fugit, quaerat quasi? Animi quos perferendis praesentium numquam porro.',
+    category: "Electronics",
+});
 
 
 let previous = document.getElementById('btnPrevious')
@@ -31,7 +33,7 @@ let gallery = document.querySelector('.cards-container')
 let pageIndicator = document.getElementById('page')
 let galleryDots = document.getElementById('gallery-dots');
 
-let perPage = 15;
+let perPage = 10;
 let page = 1;
 let pages = Math.ceil(productList.length / perPage)
 
@@ -40,6 +42,8 @@ const desktopMenu = document.querySelector('.desktop-menu');
 
 const menuHamIcon = document.querySelector('.menu');
 const mobileMenu = document.querySelector('.mobile-menu');
+
+const promotionContainer = document.querySelector('.promotion-container');
 
 const menuCar = document.querySelector('.navbar-shopping-card');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
@@ -60,6 +64,71 @@ menuEmail.addEventListener('click', toggleDesktopMenu);
 menuHamIcon.addEventListener('click', toggleMobileMenu);
 menuCar.addEventListener('click', toggleCar);
 
+const searchButton = document.querySelector('#search-button');
+const inputSearch = document.querySelector('.search');
+
+searchButton.addEventListener('click',function(){
+    let searchElement = productList.filter(function(el) {
+        return el.name.toLowerCase().indexOf(inputSearch.value.toLowerCase()) > -1;
+    });
+    renderCategory(searchElement);
+});
+
+//Header
+let category = [];
+const categories = document.querySelectorAll('.categories');
+for(let i = 0; i < categories.length; i++){
+    categories[i].addEventListener('click', function(){
+        renderCategoryStyle(i);
+    });
+}
+
+
+function renderCategoryStyle(index){
+    for (let i = 0; i < categories.length; i++) {
+        if(categories[i].classList.contains('active-category')){
+            categories[i].classList.remove('active-category');
+        }   
+    }
+    categories[index].classList.add('active-category');
+    renderCategory(index);
+}
+
+function renderCategory(index){
+    category = [];
+    if(index !== 0 && !Array.isArray(index)){
+        for(product of productList){
+            if(categories[index].children[0].innerText === product.category){
+                category.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    description: product.description,
+                    category: product.category, 
+                });
+            }
+        }
+    }else if(Array.isArray(index) && index.length > 0) {
+        category = index;
+    }else{
+        category = productList;
+    }
+    
+    if(category.length > 0 && category.length <=10){
+         perPage = 20;
+
+    }else{
+        perPage = 10;
+    }
+    page = 1;
+    pages = Math.ceil(category.length / perPage);
+    renderDots(category);
+    renderProduct(category);
+    
+}
+//
+
 //Add to cart
 const counterCart = document.querySelector('.counter-cart');
 
@@ -78,7 +147,6 @@ function addToCart(id, inputRequest){
     shopingCardClass = document.querySelectorAll('.shopping-card');  
     amount = document.querySelectorAll('.amount');
     
-    position = id;
     if(myOrder.length > 0){ 
         let i = 0;
         let j = myOrder.length - 1;
@@ -132,9 +200,13 @@ function openProductDetailAside(id) {
     shoppingCartContainer.classList.add('inactive');
     desktopMenu.classList.add('inactive');
     mobileMenu.classList.add('inactive');
-    console.log(`Id: ${id}`);
-    console.log(`Position: ${position}`);
-    position = 2;
+    position = id;
+    for(let i = 0; i < productList.length; i++){
+        if(!productDetailContainer[i].classList.contains('inactive')){
+            productDetailContainer[i].classList.add('inactive');
+        }
+        
+    }
     productDetailContainer[id].classList.remove('inactive');
 }
 
@@ -158,13 +230,15 @@ function toggleDesktopMenu () {
 function toggleMobileMenu () {
     const isshoppingCartContainerClosed = shoppingCartContainer.classList.contains('inactive');
     const isProductDetaiClosed = productDetailContainer[position].classList.contains('inactive');
+    
     //Si el menu movil esta abierto hay que cerrarlo
     if(!isshoppingCartContainerClosed){
         shoppingCartContainer.classList.add('inactive');
     }
     if(!isProductDetaiClosed){
         productDetailContainer[position].classList.add('inactive');
-    }  
+    } 
+    promotionContainer.classList.toggle('inactive'); 
     mobileMenu.classList.toggle('inactive');
 }
 
@@ -172,6 +246,7 @@ function toggleCar() {
     const ismobileMenuClosed = mobileMenu.classList.contains('inactive');
     const isDesktopMenuClosed = desktopMenu.classList.contains('inactive');
     const isProductDetaiClosed = productDetailContainer[position].classList.contains('inactive');
+    const isPromotionContainerClosed = promotionContainer.classList.contains('inactive');
     //Si el menu movil esta abierto hay que cerrarlo
     if(!ismobileMenuClosed){
         mobileMenu.classList.add('inactive');
@@ -181,6 +256,9 @@ function toggleCar() {
     }
     if(!isProductDetaiClosed){
         productDetailContainer[position].classList.add('inactive');
+    }
+    if(isPromotionContainerClosed){
+        promotionContainer.classList.remove('inactive');
     }
     shoppingCartContainer.classList.toggle('inactive');
 }
@@ -281,52 +359,63 @@ function renderProductDetail (arr){
 }
 
 // Gallery dots
-for (let i = 0; i < pages; i++){
-    let dot = document.createElement('button');
-    dot.classList.add('gallery-dot');
-    dot.setAttribute('data-index', i);
-
-    let dotSpan = document.createElement('span');
-    dotSpan.classList.add('sr-only');
-
-    let dotNumber = document.createTextNode(i + 1);
+function renderDots(arr){
+    while (galleryDots.firstChild) {
+        galleryDots.removeChild(galleryDots.lastChild);
+    }
+    for (let i = 0; i < pages; i++){
+        let dot = document.createElement('button');
+        dot.classList.add('gallery-dot');
+        dot.setAttribute('data-index', i);
     
-   
-    dotSpan.appendChild(dotNumber);
-    dot.appendChild(dotSpan)
+        let dotSpan = document.createElement('span');
+        dotSpan.classList.add('sr-only');
     
-    dot.addEventListener('click', function(e) {
-      let self = e.target
-      goToPage(self.getAttribute('data-index'))
-    })
-    
-    galleryDots.appendChild(dot)
+        let dotNumber = document.createTextNode(i + 1);
+        
+       
+        dotSpan.appendChild(dotNumber);
+        dot.appendChild(dotSpan);
+        
+        dot.addEventListener('click', function(e) {
+          let self = e.target
+          goToPage(self.getAttribute('data-index'), arr)
+        });
+        
+        galleryDots.appendChild(dot);
+    }
 }
 
+
 // Previous Button
-previous.addEventListener('click', function() {
-    if (page === 1) {
-      page = 1;
-    } else {
-      page--;
-      renderProduct(productList);
-    }
-  })
-  
+function renderPrevious(arr){
+    previous.addEventListener('click', function() {
+        if (page === 1) {
+          page = 1;
+        } else {
+          page--;
+          renderProduct(arr);
+        }
+      });
+}
+ 
   // Next Button
-next.addEventListener('click', function() {
-    if (page < pages) {
-      page++;
-      renderProduct(productList);
-    }
-})
+function renderNext(arr){
+    next.addEventListener('click', function() {
+        if (page < pages) {
+          page++;
+          renderProduct(arr);
+        }
+    });
+}
+
   
   // Jump to page
-function goToPage(index) {
+function goToPage(index, arr) {
     index = parseInt(index);
     page =  index + 1;
     
-    renderProduct(productList);
+    renderProduct(arr);
 }
 
 function renderProduct (arr) {
@@ -406,7 +495,9 @@ function renderProduct (arr) {
     pageIndicator.textContent = "Page " + page + " of " + pages;
 }
 
-
+renderDots(productList);
+renderPrevious(productList);
+renderNext(productList);
 renderProduct(productList);
 
 

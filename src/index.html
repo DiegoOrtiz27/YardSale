@@ -23,25 +23,32 @@
           <li>
             <a href="#">CATEGORIES</a>
           </li>
-          <li>
-            <a href="#">All</a>
+          <li class="categories">
+            <a href="#" >All</a>
           </li>
-          <li>
-            <a href="#">Clothes</a>
+          <li class="categories">
+            <a href="#" >Clothes</a>
           </li>
-          <li>
-            <a href="#">Electronics</a>
+          <li class="categories">
+            <a href="#" >Electronics</a>
           </li>
-          <li>
-            <a href="#">Furnitures</a>
+          <li class="categories">
+            <a href="#" >Furnitures</a>
           </li>
-          <li>
-            <a href="#">Toys</a>
+          <li class="categories">
+            <a href="#" >Toys</a>
           </li>
-          <li>
-            <a href="#">Others</a>
+          <li class="categories">
+            <a href="#" >Others</a>
           </li>
         </ul>
+      </div>
+      <div class="navbar-mid">
+        <input type="text" class="search" placeholder="Search products, services and more...">
+        <button id="search-button">
+          <img src="../Icons/search.png" alt="Search product." />
+        </button>
+        
       </div>
       <div class="navbar-right">
         <ul>
@@ -55,7 +62,7 @@
       <div class="desktop-menu inactive">
         <ul>
           <li>
-            <a href="" class="title"> My Orders </a>
+            <a href="" class="title-orders"> My Orders </a>
           </li>
           <li>
             <a href=""> My Account </a>
@@ -70,20 +77,20 @@
           <li>
             <a href="/">CATEGORIES</a>
           </li>
-          <li>
-            <a href="/">All</a>
+          <li class="categories">
+            <a href="#" >All</a>
           </li>
-          <li>
-            <a href="/">Clothes</a>
+          <li class="categories">
+            <a href="#" >Clothes</a>
           </li>
-          <li>
-            <a href="/">Electronics</a>
+          <li class="categories">
+            <a href="#" >Electronics</a>
           </li>
-          <li>
-            <a href="/">Toys</a>
+          <li class="categories">
+            <a href="#" >Toys</a>
           </li>
-          <li>
-            <a href="/">Others</a>
+          <li class="categories">
+            <a href="#" >Others</a>
           </li>
         </ul>
         <ul>
@@ -139,6 +146,7 @@
             </button>
         </div>
     </aside>
+
     <div class="product-detail-root">
         <!-- <aside id="productDetail" class="inactive">
           <div class="product-detail-close">
@@ -158,7 +166,9 @@
         </aside> -->
     </div>
     
-
+    <section class="promotion-container">
+      <div id="mySlider"></div>
+    </section>
     <section class="main-container">
         <div class="cards-container">
             <!-- <div class="product-card">
@@ -184,7 +194,7 @@
       </div>
       <button id="btnNext"><span class="sr-only">Next </span>&rarr;</button>
     </footer>
-    
+    <script src="./carousel.js"></script>
     <script src="./index.js"></script>
   </body>
 </html>
