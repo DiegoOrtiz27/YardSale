@@ -90,13 +90,14 @@ function renderCategoryStyle(index){
             categories[i].classList.remove('active-category');
         }   
     }
+    console.log(categories);
     categories[index].classList.add('active-category');
     renderCategory(index);
 }
 
 function renderCategory(index){
     category = [];
-    if(index !== 0 && !Array.isArray(index)){
+    if(index !== 0 && !Array.isArray(index) && index !== 6){
         for(product of productList){
             if(categories[index].children[0].innerText === product.category){
                 category.push({
